@@ -4,7 +4,31 @@ defmodule BeerSong do
   """
   @spec verse(integer) :: String.t()
   def verse(number) do
-    # Your implementation here...
+    cond do
+      number == 2 ->
+        """
+        2 bottles of beer on the wall, 2 bottles of beer.
+        Take one down and pass it around, 1 bottle of beer on the wall.
+        """
+
+      number > 1 ->
+        """
+        #{number} bottles of beer on the wall, #{number} bottles of beer.
+        Take one down and pass it around, #{number - 1} bottles of beer on the wall.
+        """
+
+      number == 1 ->
+        """
+        1 bottle of beer on the wall, 1 bottle of beer.
+        Take it down and pass it around, no more bottles of beer on the wall.
+        """
+
+      number == 0 ->
+        """
+        No more bottles of beer on the wall, no more bottles of beer.
+        Go to the store and buy some more, 99 bottles of beer on the wall.
+        """
+    end
   end
 
   @doc """
@@ -12,6 +36,30 @@ defmodule BeerSong do
   """
   @spec lyrics(Range.t()) :: String.t()
   def lyrics(range) do
-    # Your implementation here...
+    range
+    |> Enum.map_join(fn number ->
+      cond do
+        number > 0 ->
+          verse(number) <> "\n"
+
+        true ->
+          verse(number)
+      end
+    end)
+  end
+
+  def lyrics() do
+    range = 99..0
+
+    range
+    |> Enum.map_join(fn number ->
+      cond do
+        number > 0 ->
+          verse(number) <> "\n"
+
+        true ->
+          verse(number)
+      end
+    end)
   end
 end
