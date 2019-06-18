@@ -3,54 +3,39 @@ defmodule BeerSong do
   Get a single verse of the beer song
   """
   @spec verse(integer) :: String.t()
-  def verse(number) do
-    cond do
-      number == 2 ->
-        """
-        2 bottles of beer on the wall, 2 bottles of beer.
-        Take one down and pass it around, 1 bottle of beer on the wall.
-        """
+  def verse(2) do
+    """
+    2 bottles of beer on the wall, 2 bottles of beer.
+    Take one down and pass it around, 1 bottle of beer on the wall.
+    """
+  end
 
-      number > 1 ->
-        """
-        #{number} bottles of beer on the wall, #{number} bottles of beer.
-        Take one down and pass it around, #{number - 1} bottles of beer on the wall.
-        """
+  def verse(number) when number > 1 do
+    """
+    #{number} bottles of beer on the wall, #{number} bottles of beer.
+    Take one down and pass it around, #{number - 1} bottles of beer on the wall.
+    """
+  end
 
-      number == 1 ->
-        """
-        1 bottle of beer on the wall, 1 bottle of beer.
-        Take it down and pass it around, no more bottles of beer on the wall.
-        """
+  def verse(1) do
+    """
+    1 bottle of beer on the wall, 1 bottle of beer.
+    Take it down and pass it around, no more bottles of beer on the wall.
+    """
+  end
 
-      number == 0 ->
-        """
-        No more bottles of beer on the wall, no more bottles of beer.
-        Go to the store and buy some more, 99 bottles of beer on the wall.
-        """
-    end
+  def verse(0) do
+    """
+    No more bottles of beer on the wall, no more bottles of beer.
+    Go to the store and buy some more, 99 bottles of beer on the wall.
+    """
   end
 
   @doc """
   Get the entire beer song for a given range of numbers of bottles.
   """
   @spec lyrics(Range.t()) :: String.t()
-  def lyrics(range) do
-    range
-    |> Enum.map_join(fn number ->
-      cond do
-        number > 0 ->
-          verse(number) <> "\n"
-
-        true ->
-          verse(number)
-      end
-    end)
-  end
-
-  def lyrics() do
-    range = 99..0
-
+  def lyrics(range \\ 99..0) do
     range
     |> Enum.map_join(fn number ->
       cond do
