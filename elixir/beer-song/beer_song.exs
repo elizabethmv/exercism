@@ -10,13 +10,6 @@ defmodule BeerSong do
     """
   end
 
-  def verse(number) when number > 1 do
-    """
-    #{number} bottles of beer on the wall, #{number} bottles of beer.
-    Take one down and pass it around, #{number - 1} bottles of beer on the wall.
-    """
-  end
-
   def verse(1) do
     """
     1 bottle of beer on the wall, 1 bottle of beer.
@@ -31,20 +24,23 @@ defmodule BeerSong do
     """
   end
 
+  def verse(number) do
+    """
+    #{number} bottles of beer on the wall, #{number} bottles of beer.
+    Take one down and pass it around, #{number - 1} bottles of beer on the wall.
+    """
+  end
+
   @doc """
   Get the entire beer song for a given range of numbers of bottles.
   """
   @spec lyrics(Range.t()) :: String.t()
   def lyrics(range \\ 99..0) do
     range
-    |> Enum.map_join(fn number ->
-      cond do
-        number > 0 ->
-          verse(number) <> "\n"
-
-        true ->
-          verse(number)
-      end
-    end)
+    # Anonymous: fn number -> process_lyric(number) end
+    |> Enum.map_join(&process_lyric/1)
   end
+
+  def process_lyric(0), do: verse(0)
+  def process_lyric(number), do: verse(number) <> "\n"
 end
